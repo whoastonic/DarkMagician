@@ -11,24 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: building dark magician
-        run: npm i && npm run build
+      - name: building dmg
+        run: yarn && yarn build
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: testing dark magician
-        run: npm i && npm run test
+        run: yarn && yarn test
       - uses: paambaati/codeclimate-action@v2.7.1
         name: publish code coverage
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TC_TOKEN}}
-        with: |
-          ${{github.workspace}}/../packages/players/coverage/lcov.info
-          ${{github.workspace}}/../packages/commons/coverage/lcov.info
+        with:
+          coverageLocations: |
+            ${{github.workspace}}/packages/players/coverage/lcov.info:lcov
+            ${{github.workspace}}/packages/commons/coverage/lcov.info:lcov
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: linting dark magician
-        run: npm i && npm run lint -- -- --quiet
+        run: yarn && yarn lint -- -- --quiet
